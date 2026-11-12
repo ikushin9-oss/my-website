@@ -1,0 +1,303 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>立陶宛見習時間軸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf7f2; --ink:#2a2a33; --muted:#6f6f7a; --line:#e4ddd2;
+  --blue:#3f63ad; --blue-soft:#e8eef9; --blue-ink:#27437d;
+  --clay:#b0643a; --clay-soft:#fbece1; --clay-ink:#7d4121;
+  --green:#4a7c53; --green-soft:#e9f2ea; --green-ink:#2f5436;
+  --card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  background-image:radial-gradient(circle at 12% 0%, #f1e6d6 0, transparent 38%),radial-gradient(circle at 100% 30%, #e3ecf3 0, transparent 34%);
+  background-attachment:fixed;
+}
+.wrap{max-width:1280px;margin:0 auto;padding:56px 28px 72px}
+
+/* hero */
+.eyebrow{font-size:13px;letter-spacing:.28em;color:var(--clay);font-weight:700}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(28px,4.2vw,48px);line-height:1.25;margin:10px 0 14px;letter-spacing:.02em}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%, #f3c9a8 62%);padding:0 4px}
+.lead{color:var(--muted);max-width:720px;font-size:15.5px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.pill{font-size:13px;padding:5px 14px;border-radius:99px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+.pill b{color:var(--clay)}
+
+/* board */
+.board{
+  margin-top:44px;
+  display:grid;
+  grid-template-columns:128px repeat(8,minmax(0,1fr));
+  column-gap:10px;row-gap:14px;
+  align-items:start;
+}
+.phase-group{
+  grid-row:1;font-weight:700;font-size:14px;text-align:center;padding-bottom:8px;letter-spacing:.2em;
+  border-bottom:3px solid;
+}
+.pg-abroad{grid-column:3 / 7;color:var(--blue);border-color:var(--blue)}
+.pg-home{grid-column:7 / 10;color:var(--clay);border-color:var(--clay)}
+.phase{
+  grid-row:2;text-align:center;font-size:13px;font-weight:700;color:var(--ink);
+  padding:6px 0 10px;position:relative;
+}
+.phase::after{content:"";position:absolute;left:50%;bottom:-4px;width:9px;height:9px;border-radius:50%;background:var(--ink);transform:translateX(-50%)}
+.phase small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.rail{grid-row:2;grid-column:2 / 10;height:2px;background:var(--ink);align-self:end;margin-bottom:-.5px;opacity:.18}
+
+.lane-label{
+  grid-column:1;border-radius:16px;color:#fff;font-weight:700;
+  padding:18px 14px;text-align:center;font-size:16px;letter-spacing:.08em;
+  position:sticky;top:12px;
+  display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;
+  min-height:110px;box-shadow:0 8px 18px -10px rgba(0,0,0,.45);
+}
+.lane-label span{font-size:11px;font-weight:400;opacity:.85;letter-spacing:.12em}
+.l1 .lane-label,.lane-label.l1{background:var(--blue)}
+.lane-label.l2{background:var(--clay)}
+.lane-label.l3{background:var(--green)}
+
+.card{
+  background:var(--card);border-radius:16px;padding:16px 16px 14px;
+  border:1px solid var(--line);border-left:5px solid;text-align:left;
+  font:inherit;color:inherit;cursor:pointer;width:100%;
+  transition:transform .2s, box-shadow .2s;
+  box-shadow:0 2px 0 rgba(0,0,0,.02);
+  position:relative;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 26px -16px rgba(0,0,0,.35)}
+.card:focus-visible{outline:3px solid #222;outline-offset:2px}
+.card .tag{font-size:11px;font-weight:700;letter-spacing:.14em;margin-bottom:4px;display:block}
+.card h3{font-size:15.5px;font-weight:700;line-height:1.5}
+.card .when{display:none;font-size:12px;color:var(--muted);margin-bottom:2px}
+.card .plus{
+  position:absolute;right:12px;top:12px;width:22px;height:22px;border-radius:50%;
+  border:1.5px solid currentColor;opacity:.55;display:grid;place-items:center;
+  font-size:15px;line-height:1;transition:transform .25s,opacity .2s;
+}
+.card[aria-expanded="true"] .plus{transform:rotate(45deg);opacity:1}
+.card .detail{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed rgba(0,0,0,.18);font-size:13.5px;color:#3d3d46}
+.card[aria-expanded="true"] .detail{display:block;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.detail ul{padding-left:1.1em;margin-top:4px}
+.detail li{margin:3px 0}
+.detail strong{font-weight:700}
+
+.c1{background:var(--blue-soft);border-left-color:var(--blue);color:var(--blue-ink)}
+.c1 .tag{color:var(--blue)}
+.c2{background:var(--clay-soft);border-left-color:var(--clay);color:var(--clay-ink)}
+.c2 .tag{color:var(--clay)}
+.c3{background:var(--green-soft);border-left-color:var(--green);color:var(--green-ink)}
+.c3 .tag{color:var(--green)}
+.card .detail{color:#3d3d46}
+
+/* placements (desktop) */
+.r3{grid-row:3}.r4{grid-row:4}.r5{grid-row:5}
+.lane-label.r3{grid-row:3}.lane-label.r4{grid-row:4}.lane-label.r5{grid-row:5}
+.s2{grid-column:2 / 3}
+.cc3{grid-column:3 / 4}.cc4{grid-column:4 / 5}.cc5{grid-column:5 / 6}.cc6{grid-column:6 / 7}.cc7{grid-column:7 / 8}.cc8{grid-column:8 / 9}.cc9{grid-column:9 / 10}
+.span-3-5{grid-column:3 / 6}
+.span-6-7{grid-column:6 / 8}
+.span-8-9{grid-column:8 / 10}
+.span-2-3{grid-column:2 / 4}
+.span-4-6{grid-column:4 / 7}
+.span-7-9{grid-column:7 / 10}
+
+/* hint */
+.hint-row{margin-top:40px;display:flex;justify-content:flex-end}
+.hint-row + .board{margin-top:18px}
+.hint-chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:99px;padding:5px 14px 5px 8px}
+.hint-chip i{font-style:normal;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-size:13px;line-height:1}
+@media (max-width:760px){.hint-row{justify-content:flex-start;margin-top:28px}}
+
+/* KPI */
+.kpis{margin-top:52px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 18px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--clay)}
+.kpi:nth-child(2)::before{background:var(--blue)}
+.kpi:nth-child(3)::before{background:var(--green)}
+.kpi:nth-child(4)::before{background:#c39a2e}
+.kpi .n{font-family:"Noto Serif TC",serif;font-weight:900;font-size:36px;line-height:1.1}
+.kpi .n small{font-size:15px;font-weight:700;margin-left:3px}
+.kpi p{margin-top:6px;font-size:13.5px;color:var(--muted)}
+.hint{margin-top:18px;font-size:12.5px;color:var(--muted);text-align:center}
+
+/* tablet */
+@media (max-width:1020px){
+  .board{grid-template-columns:96px repeat(8,minmax(0,1fr));column-gap:6px}
+  .lane-label{font-size:14px;padding:14px 8px}
+  .phase{font-size:11.5px}
+  .card{padding:12px 12px 10px}
+  .card h3{font-size:13.5px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+
+/* mobile: vertical per lane */
+@media (max-width:760px){
+  .wrap{padding:36px 18px 56px}
+  .board{display:flex;flex-direction:column;gap:12px}
+  .phase-group,.phase,.rail{display:none}
+  .lane-label{position:static;flex-direction:row;justify-content:flex-start;gap:10px;min-height:0;padding:12px 18px;border-radius:12px;margin-top:18px;font-size:16px}
+  .card .when{display:block}
+  .card{padding:14px 40px 12px 14px}
+  .card h3{font-size:15px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi .n{font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">教育部青年百億海外圓夢基金計畫</div>
+    <h1>預期效益與<em>未來發展性</em></h1>
+    <p class="lead">參與 Tavo Europa EU 企劃實驗室見習，結合數位行銷與非正式教育活動，把第一手歐洲青年培力與 NGO 運作經驗帶回臺灣。</p>
+  </header>
+
+  <div class="hint-row"><span class="hint-chip"><i>+</i>點擊任一卡片可展開詳細內容</span></div>
+
+  <main class="board" id="board">
+    <div class="phase-group pg-abroad">海外見習</div>
+    <div class="phase-group pg-home">返國後</div>
+
+    <div class="rail"></div>
+    <div class="phase" style="grid-column:2">出國前</div>
+    <div class="phase" style="grid-column:3">第 1–8 週</div>
+    <div class="phase" style="grid-column:4">第 9–16 週</div>
+    <div class="phase" style="grid-column:5">第 17–23 週</div>
+    <div class="phase" style="grid-column:6">最後一週</div>
+    <div class="phase" style="grid-column:7">第 1 個月</div>
+    <div class="phase" style="grid-column:8">第 2–3 個月</div>
+    <div class="phase" style="grid-column:9">第 4–6 個月</div>
+
+    <!-- LANE 1 -->
+    <div class="lane-label l1 r3">學習與見習<span>LEARNING</span></div>
+
+    <button class="card c1 r3 s2" aria-expanded="false">
+      <span class="plus">+</span><span class="when">出國前</span><span class="tag">PHASE 0</span>
+      <h3>學習目標</h3>
+      <div class="detail">了解立陶宛在地 NGO 與歐盟專案脈絡，鎖定見習焦點。</div>
+    </button>
+    <button class="card c1 r3 cc3" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習第 1–8 週</span><span class="tag">PHASE 1</span>
+      <h3>組織運作</h3>
+      <div class="detail">融入團隊，學習 NGO 如何用 WordPress、Canva 建立高效的對外溝通。</div>
+    </button>
+    <button class="card c1 r3 cc4" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習第 9–16 週</span><span class="tag">PHASE 2</span>
+      <h3>招募與活動</h3>
+      <div class="detail">掌握青年教育專案的設計邏輯，培養跨文化協作能力。</div>
+    </button>
+    <button class="card c1 r3 cc5" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習第 17–23 週</span><span class="tag">PHASE 3</span>
+      <h3>記錄與訪談</h3>
+      <div class="detail">追蹤專案成效與 SEO，以數據評估行銷影響力。</div>
+    </button>
+    <button class="card c1 r3 cc6" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習最後一週</span><span class="tag">PHASE 4</span>
+      <h3>成果整理</h3>
+      <div class="detail">完成成果交接，整理成返國分享與分析文章的素材。</div>
+    </button>
+
+    <!-- LANE 2 -->
+    <div class="lane-label l2 r4">社會影響力<span>IMPACT</span></div>
+
+    <button class="card c2 r4 s2" aria-expanded="false">
+      <span class="plus">+</span><span class="when">出國前</span><span class="tag">PREPARE</span>
+      <h3>初步規劃</h3>
+      <div class="detail">先擬定圖文與短影音的主題方向：組織介紹、推廣方式、活動現場、個人反思。</div>
+    </button>
+    <button class="card c2 action r4 span-3-5" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習期間（第 1–23 週）</span><span class="tag">ACTION 01</span>
+      <h3>圖文＋短影音</h3>
+      <div class="detail">
+        <strong>歐洲青年教育 NGO 見習觀察</strong>，於 Facebook 與 Instagram 發布至少 <strong>8 篇圖文與 4 支短影音</strong>。
+        <ul>
+          <li>組織介紹：見習單位及其他歐洲青年教育 NGO 是什麼樣的組織</li>
+          <li>推廣方式：組織如何讓青年認識非正規教育</li>
+          <li>活動現場：歐洲青年教育活動的流程與氛圍</li>
+          <li>個人反思：見習中的觀察，以及帶回臺灣的啟發</li>
+        </ul>
+        <strong>量化指標：</strong>每則內容預計觸及 500 人以上，激發臺灣青年對國際參與的興趣。
+      </div>
+    </button>
+    <button class="card c2 action r4 span-6-7" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習最後一週～返國第 1 個月</span><span class="tag">ACTION 02</span>
+      <h3>深度分析文章</h3>
+      <div class="detail">
+        結合比較教育背景，執筆 <strong>2 篇</strong>有論述的分析文章，讓讀者看見比較是怎麼做的。
+        <ul>
+          <li><strong>主題一：</strong>歐洲青年教育組織與臺灣青年組織的推廣方式比較（活動形式、招募管道、經費來源、人力配置、數位宣傳）</li>
+          <li><strong>主題二：</strong>歐洲青年教育活動設計與臺灣之比較（活動目標、參與者組成、引導方法、時長與場地、成果及後續）</li>
+        </ul>
+        <strong>量化指標：</strong>發表於公開平台，目標觸及合計 250 人。
+      </div>
+    </button>
+    <button class="card c2 action r4 span-8-9" aria-expanded="false">
+      <span class="plus">+</span><span class="when">返國第 2–3 個月籌備並舉辦</span><span class="tag">ACTION 03</span>
+      <h3>實體分享會</h3>
+      <div class="detail">
+        回母校國際文教與比較教育學系舉辦 <strong>1 場</strong>實體／線上成果分享會。確認出行後先聯絡系所洽談合作，見習期間保持聯繫。
+        <ul>
+          <li>主題：歐洲青年教育組織見習經驗、青年百億海外計畫、跨領域就業經驗</li>
+        </ul>
+        <strong>量化指標：</strong>累計 30 人以上實質參與，回饋問卷滿意度 80% 以上。
+      </div>
+    </button>
+
+    <!-- LANE 3 -->
+    <div class="lane-label l3 r5">個人職涯<span>CAREER</span></div>
+
+    <button class="card c3 r5 span-2-3" aria-expanded="false">
+      <span class="plus">+</span><span class="when">出國前～見習第 8 週</span><span class="tag">STAGE 1</span>
+      <h3>盤點專業能力與學習需求</h3>
+      <div class="detail">以行銷專業為底，釐清要在歐洲 NGO 現場補強的能力，作為見習觀察與學習的基準。</div>
+    </button>
+    <button class="card c3 r5 span-4-6" aria-expanded="false">
+      <span class="plus">+</span><span class="when">見習第 9 週～最後一週</span><span class="tag">STAGE 2</span>
+      <h3>探索職涯可能性</h3>
+      <div class="detail">
+        收集與調查歐洲與臺灣相關領域的組織，比較各領域的長項，從中找出自己適合投入的方向與可以貢獻的位置，並留下可檢視的具體產出：
+        <ul>
+          <li><strong>見習日誌與觀察筆記：</strong>逐週記錄組織運作、分工與溝通流程。</li>
+          <li><strong>歐臺組織調查清單：</strong>蒐集歐洲與臺灣青年教育、國際交流及相關 NGO 的基本資料與運作模式。</li>
+          <li><strong>職涯方向評估：</strong>對照見習前的能力盤點，整理出自己的強項、待補強項目與下一步方向。</li>
+        </ul>
+      </div>
+    </button>
+    <button class="card c3 r5 span-7-9" aria-expanded="false">
+      <span class="plus">+</span><span class="when">返國後 6 個月內</span><span class="tag">STAGE 3</span>
+      <h3>將見習經驗轉化為職涯新起點</h3>
+      <div class="detail">
+        <ul>
+          <li><strong>建立作品集：</strong>將圖文、影音、數據分析報告與專案手冊匯整為公開網站或數位作品集。</li>
+          <li><strong>實際參與工作：</strong>憑藉在 Tavo Europa 累積的歐盟專案企劃與數位行銷實務經驗，投入臺灣的國際交流組織與教育非營利機構，在工作中提案本次見習帶回的新觀點，並持續推動青年培力教育活動。</li>
+        </ul>
+      </div>
+    </button>
+  </main>
+
+  </div>
+
+<script>
+document.querySelectorAll('.card').forEach(function(c){
+  c.addEventListener('click',function(){
+    c.setAttribute('aria-expanded', c.getAttribute('aria-expanded')==='true' ? 'false' : 'true');
+  });
+});
+</script>
+</body>
+</html>
+
+</body></html>
